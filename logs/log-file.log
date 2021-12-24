@@ -1,3 +1,13 @@
 {"level":"info","message":"::1 - - [23/Dec/2021:20:31:28 +0000] \"POST /register HTTP/1.1\" 404 148 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-23T20:31:28.571Z"}
 {"level":"info","message":"::1 - - [23/Dec/2021:20:31:37 +0000] \"POST /register HTTP/1.1\" 404 148 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-23T20:31:37.819Z"}
 {"level":"info","message":"::1 - - [23/Dec/2021:20:32:20 +0000] \"POST /api/register HTTP/1.1\" 200 243 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-23T20:32:20.956Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:07:58 +0000] \"POST /manejador/createBot HTTP/1.1\" 404 159 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:07:58.677Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:08:04 +0000] \"GET /manejador/createBot HTTP/1.1\" 404 158 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:08:04.849Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:12:54 +0000] \"GET /manejador/createBot HTTP/1.1\" 500 1338 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:12:54.857Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:16:09 +0000] \"GET /manejador/createBot HTTP/1.1\" 200 2880 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:16:09.855Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:21:48 +0000] \"GET /manejador/createBot HTTP/1.1\" 200 2864 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:21:48.717Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:25:22 +0000] \"GET /manejador/createBot HTTP/1.1\" 200 9274 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:25:22.092Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:27:19 +0000] \"GET /manejador/createBot HTTP/1.1\" 200 152 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:27:19.336Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:09:30:31 +0000] \"GET /manejador/createBot HTTP/1.1\" 200 2938 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T09:30:31.621Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:10:05:08 +0000] \"GET /manejador/createBot HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T10:05:08.921Z"}
+{"level":"info","message":"::1 - - [24/Dec/2021:10:07:20 +0000] \"GET /manejador/createBot HTTP/1.1\" 200 2964 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2021-12-24T10:07:20.521Z"}

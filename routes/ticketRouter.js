@@ -5,12 +5,6 @@ const router = express.Router();
 const ticketController = require('../controllers/ticketController');
 
 
-router.get('/getAll', ticketController.getAll);
-router.get('/getById', ticketController.getById);
-router.get('/create', ticketController.create);
-router.get('/getByTitle', ticketController.getByTitle);
-router.get('/delete', ticketController.delete);
-router.get('/deleteAll', ticketController.deleteAll);
-
+router.post('/', ticketController.create);
 
 module.exports = router;

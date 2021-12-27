@@ -51,18 +51,18 @@ async function registerController(req, res, next) {
 async function loginController(req, res, next) {
   try {
     const user = await User.findOne({
-      where: { email: req.body.email },
+      where: { correo: req.body.correo },
     });
     if (!user) throw new Error('no user');
     const isValidPassword = await comparePassword(
-      req.body.password,
-      user.password,
+      req.body.contraseya,
+      user.contraseya,
     );
     if (!isValidPassword) throw new Error('no valid password');
 
     const data = {
-      username: user.username,
-      email: user.email,
+      nombre: user.nombre,
+      correo: user.correo,
       id: user.id,
     };
     user.token = await createJWT(data);

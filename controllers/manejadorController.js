@@ -34,6 +34,7 @@ ManejadorController.createBot = (req, res) => {
           response.data = new Buffer.from(matches[2], 'base64');
 
           try {
+            
             res.send(asciiQR);
           }
           catch (err) {
@@ -43,17 +44,6 @@ ManejadorController.createBot = (req, res) => {
             });
           };
 
-            // var imageBuffer = response;
-            // require('fs').writeFile(
-            //   'out.png',
-            //   imageBuffer['data'],
-            //   'binary',
-            //   function (err) {
-            //     if (err != null) {
-            //       console.log(err);
-            //     }
-            //   }
-            // );
           },
           undefined,
             { logQR: true }

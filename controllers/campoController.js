@@ -8,52 +8,29 @@ var jiraModel  = require('../models').jira;  //Add for dependency response
 const campoController = {}; //Create the object controller
 
 //CRUD end-points Functions
+
 //-------------------------------------------------------------------------------------
 //GET all campos from database
 campoController.getAll = (req, res) => {
     
-    campos.findAll({include: [{ model:jiraModel}]})
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving campos."
-        });
+  campos.findAll({include: [{ model:jiraModel}]})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving campos."
       });
-  };
-
-
-//-------------------------------------------------------------------------------------
-//GET campos by Id from database
-campoController.getById = (req, res) => {
-    const id = req.params.id;
-
-    campos.findByPk(id, {include: [{ model:jiraModel}]})
-      .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find Tutorial with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving campos with id=" + id
-        });
-      });
-  };
-
+    });
+};
 
 
 //-------------------------------------------------------------------------------------
 //CREATE a new campo in database
 campoController.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.custom_field) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
@@ -62,7 +39,8 @@ campoController.create = (req, res) => {
   
     // Create a campos
     const newcampo = {
-      title: req.body.title,
+      custom_field: req.body.custom_field,
+      nombre: req.body.nombre,
       jiraId: req.body.jiraId
     };
   
@@ -107,21 +85,6 @@ campoController.update = (req, res) => {
   };
 
 
-//-------------------------------------------------------------------------------------
-//GET campo by Title from database 
-//FindByTitle
-  campoController.getByTitle = (req, res) => {
-    campos.findAll({ where: { title: req.params.title } })
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving tutorials."
-        });
-      });
-  };
 
 
 //-------------------------------------------------------------------------------------
@@ -151,23 +114,5 @@ campoController.delete = (req, res) => {
   };
 
 
-//-------------------------------------------------------------------------------------
-//DELETE all campos from database
-//delete all campos 
-  campoController.deleteAll = (req, res) => {
-    campos.destroy({
-      where: {},
-      truncate: false
-    })
-      .then(nums => {
-        res.send({ message: `${nums} campos were deleted successfully!` });
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while removing all campos."
-        });
-      });
-  };
 
 module.exports = campoController;

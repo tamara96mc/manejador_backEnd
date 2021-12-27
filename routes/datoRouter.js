@@ -5,12 +5,11 @@ const router = express.Router();
 const datoController = require('../controllers/datoController');
 
 
-router.get('/getAll', datoController.getAll);
-router.get('/getById', datoController.getById);
-router.get('/create', datoController.create);
-router.get('/getByTitle', datoController.getByTitle);
-router.get('/delete', datoController.delete);
-router.get('/deleteAll', datoController.deleteAll);
+router.post('/', datoController.create);
+router.put('/:id', datoController.update);
+router.get('/telefono/:telefono', datoController.getByTelefono);
+router.delete('/:id', datoController.delete);
+router.delete('/telefono/:telefono', datoController.deleteAllByTelefono);
 
 
 module.exports = router;

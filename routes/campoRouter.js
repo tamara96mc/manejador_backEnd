@@ -5,12 +5,12 @@ const router = express.Router();
 const campoController = require('../controllers/campoController');
 
 
-router.get('/getAll', campoController.getAll);
-router.get('/getById', campoController.getById);
-router.get('/create', campoController.create);
-router.get('/getByTitle', campoController.getByTitle);
-router.get('/delete', campoController.delete);
-router.get('/deleteAll', campoController.deleteAll);
+
+router.get('/', campoController.getAll);
+router.post('/', campoController.create);
+router.put('/:id', campoController.update);
+router.delete('/:id', campoController.delete);
+
 
 
 module.exports = router;

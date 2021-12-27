@@ -2,6 +2,7 @@
 const db = require("../models");
 const datos = db.dato;
 const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
+const {sequelize_conexion} = require('../config/db.js');
 
 var clienteModel  = require('../models').cliente;
 var campoModel  = require('../models').campo;  //Add for dependency response
@@ -11,50 +12,13 @@ const datoController = {}; //Create the object controller
 //CRUD end-points Functions
 //-------------------------------------------------------------------------------------
 //GET all datos from database
-datoController.getAll = (req, res) => {
-    
-    datos.findAll({include: [{ model:clienteModel}, { model:campoModel}]})
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving datos."
-        });
-      });
-  };
-
-
-//-------------------------------------------------------------------------------------
-//GET datos by Id from database
-datoController.getById = (req, res) => {
-    const id = req.params.id;
-
-    datos.findByPk(id, {include: [{ model:clienteModel}, { model:campoModel}]})
-      .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find Tutorial with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving datos with id=" + id
-        });
-      });
-  };
-
 
 
 //-------------------------------------------------------------------------------------
 //CREATE a new dato in database
 datoController.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
+    if (!req.body.valor) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
@@ -63,8 +27,9 @@ datoController.create = (req, res) => {
   
     // Create a datos
     const newdato = {
-      title: req.body.title,
-      clienteId: req.body.clienteId
+      valor: req.body.valor,
+      telefono: req.body.telefono,
+      campoId: req.body.campoId
     };
   
     // Save datos in the database
@@ -111,8 +76,10 @@ datoController.update = (req, res) => {
 //-------------------------------------------------------------------------------------
 //GET dato by Title from database 
 //FindByTitle
-  datoController.getByTitle = (req, res) => {
-    datos.findAll({ where: { title: req.params.title } })
+  datoController.getByTelefono = (req, res) => {
+    sequelize_conexion.query(`SELECT campos.nombre, datos.valor FROM datos
+    INNER JOIN Campos ON datos.campoId=campos.id WHERE telefono
+    ='${req.params.telefono}' `, { model: campoModel })
       .then(data => {
         res.send(data);
       })
@@ -155,9 +122,9 @@ datoController.delete = (req, res) => {
 //-------------------------------------------------------------------------------------
 //DELETE all datos from database
 //delete all datos 
-  datoController.deleteAll = (req, res) => {
+  datoController.deleteAllByTelefono = (req, res) => {
     datos.destroy({
-      where: {},
+      where:  { telefono: req.params.telefono },
       truncate: false
     })
       .then(nums => {

@@ -20,6 +20,9 @@ module.exports = {
       descripcion: {
         type: Sequelize.STRING
       },
+      tarea: {
+        type: Sequelize.STRING
+      },
       nombre: {
         type: Sequelize.STRING
       },

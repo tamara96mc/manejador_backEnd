@@ -5,12 +5,9 @@ const router = express.Router();
 const jiraController = require('../controllers/jiraController');
 
 
-router.get('/getAll', jiraController.getAll);
-router.get('/getById', jiraController.getById);
-router.get('/create', jiraController.create);
-router.get('/getByType', jiraController.getByType);
-router.get('/delete', jiraController.delete);
-router.get('/deleteAll', jiraController.deleteAll);
+router.get('/:id', jiraController.getById);
+router.post('/', jiraController.create);
+router.put('/:id', jiraController.update);
 
 
 module.exports = router;

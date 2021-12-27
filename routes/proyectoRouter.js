@@ -5,12 +5,12 @@ const router = express.Router();
 const proyectoController = require('../controllers/proyectoController');
 
 
-router.get('/getAll', proyectoController.getAll);
-router.get('/getById', proyectoController.getById);
-router.get('/create', proyectoController.create);
-router.get('/getByTitle', proyectoController.getByTitle);
-router.get('/delete', proyectoController.delete);
-router.get('/deleteAll', proyectoController.deleteAll);
+router.get('/', proyectoController.getAllByJira);
+router.post('/', proyectoController.create);
+router.put('/:id', proyectoController.update);
+router.delete('/:id', proyectoController.delete);
+router.get('/nombre/:nombre', proyectoController.getTipoByProyecto);
+
 
 
 module.exports = router;

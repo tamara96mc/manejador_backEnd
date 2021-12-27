@@ -1,9 +1,9 @@
 const config = require('./config.json');
-const {Sequelize, DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(
-    process.env.MYSQL_DATABASE || config.development.database, 
-    process.env.MYSQL_USER || config.development.username, 
+    process.env.MYSQL_DATABASE || config.development.database,
+    process.env.MYSQL_USER || config.development.username,
     process.env.MYSQL_PASSWORD || config.development.password,
     {
         host: process.env.MYSQL_HOST || config.development.host,
@@ -19,8 +19,12 @@ const sequelize = new Sequelize(
     }
 );
 
-module.exports = sequelize.authenticate()
-.then((db)=>{
-    console.log('MYSQL connected'); 
-    return db;
-});
+
+module.exports = {
+    sequelize_bd: sequelize.authenticate()
+    .then((db) => {
+        console.log('MYSQL connected');
+        return db;
+    }),
+    sequelize_conexion: sequelize
+}

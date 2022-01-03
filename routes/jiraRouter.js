@@ -5,7 +5,7 @@ const router = express.Router();
 const jiraController = require('../controllers/jiraController');
 
 
-router.get('/:id', jiraController.getById);
+router.get('/userId/:userId', jiraController.getByUserID);
 router.post('/', jiraController.create);
 router.put('/:id', jiraController.update);
 

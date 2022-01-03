@@ -5,7 +5,7 @@ const router = express.Router();
 const ManejadorController = require('../controllers/manejadorController');
 
 
-router.get('/createBot', ManejadorController.createBot);
+router.post('/createBot', ManejadorController.createBot);
 
 
 

@@ -7,27 +7,19 @@ const JiraController = {}; //Create the object controller
 
 
 //-------------------------------------------------------------------------------------
-//GET categories by Id from database
-JiraController.getById = (req, res) => {
-    const id = req.params.id;
-  
-    jira.findByPk(id)
+
+  JiraController.getByUserID = (req, res) => {
+    jira.findAll({ where: { userId: req.params.userId } })
       .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find jira with id=${id}.`
-          });
-        }
+        res.send(data);
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving jiras with id=" + id
+          message:
+            err.message || "Some error occurred while retrieving jiras."
         });
       });
   };
-
 
 //-------------------------------------------------------------------------------------
 //CREATE a new jira in database
@@ -47,7 +39,8 @@ JiraController.create = (req, res) => {
       usuario: req.body.usuario,
       contraseya: req.body.contraseya,
       telefono: req.body.telefono,
-      tipo_jira: req.body.tipo_jira
+      tipo_jira: req.body.tipo_jira,
+      userId: req.body.userId
     };
   
     // Save jira in the database

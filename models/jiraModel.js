@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     contraseya: DataTypes.STRING,
     telefono: DataTypes.STRING,
     tipo_jira: DataTypes.STRING,
+    userId: DataTypes.INTEGER
 
   }, {
     sequelize,

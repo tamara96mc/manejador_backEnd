@@ -1,5 +1,13 @@
 let fase = 0;
+
 let datos = [];
+
+let fase1 = [];
+let fase2 = [];
+let fase3 = [];
+let fase4 = [];
+let fase5 = [];
+
 let nombre = '';
 let telefono = '';
 
@@ -83,197 +91,216 @@ ManejadorController.createBot = (req, res) => {
 
   function reply(message) {
 
-    const clientes = ["680980409"];
+    try {
 
-    let clienteWA =message.from.substring(2, 11);
+      const clientes = ["680980409" , "652800441"];
+  
+      let clienteWA = message.from.substring(2, 11);
+  
+        
+        if (clientes.includes(clienteWA)) {
+  
+          let condicion = !fase1.includes(clienteWA) && !fase2.includes(clienteWA) && !fase3.includes(clienteWA) && !fase4.includes(clienteWA) && !fase5.includes(clienteWA);
 
-    console.log('cliente auth', clienteWA);
-
-    if (clientes.includes(clienteWA)) {
       
-      telefono = message.sender.id;
-      nombre = message.sender.pushname;
-      datos.push(message.body);
+          if (condicion) {
+  
+            fase1.push(clienteWA);
+            fase2.push(clienteWA);
+            fase3.push(clienteWA);
+            fase4.push(clienteWA);
+            fase5.push(clienteWA);
 
-      switch (fase) {
-        case 0:
-          client
+
+            client
             .sendText(message.from, `Hola 👋, bienvenido al soporte de JIRA. Vamos a crear un ticket, ¿Me puedes facilitar un resumen para el ticket?`)
             .then((result) => {
               //console.log('Result: ', result); //return object success
-              fase = 1;
             })
             .catch((erro) => {
               console.error('Error when sending: ', erro); //return object error
             });
-          break;
-        case 1:
-          client
-            .sendText(message.from, `Vale. ¿Me puedes facilitar algo más de información? 💬`)
-            .then((result) => {
-              //console.log('Result: ', result); //return object success
-              fase = 2;
-            })
-            .catch((erro) => {
-              console.error('Error when sending: ', erro); //return object error
-            });
-          break;
-        case 2:
-          const buttons = [
-            {
-              "buttonText": {
-                "displayText": "CAU"
-              }
-            },
-            {
-              "buttonText": {
-                "displayText": "GESTIC"
-              }
-            }
-          ]
-          client.sendButtons(message.from, 'Proyectos', buttons, 'Selecciona uno')
-            .then((result) => {
-              //console.log('Result2: ', result); //return object success
-              fase = 3;
-            })
-            .catch((erro) => {
-              console.error('Error when sending: ', erro); //return object error
-            });
-          break;
-
-        case 3:
-
-          const list = [
-            {
-              title: "Tipo de tareas",
-              rows: [
-                {
-                  title: "Incidencia",
-                  description: "Si tiene un problema o un error.",
-                },
-                {
-                  title: "Consulta",
-                  description: "Si tiene dudas o necesita información sobre un asunto",
-                },
-                {
-                  title: "Servicio",
-                  description: "Si necesita de nuestro soporte de servicios.",
-                }
-              ]
-            }
-          ];
-
-          client.sendListMenu(message.from, 'Tipo de tarea', 'Seleccione uno', 'Para clasificar este ticket necesitamos saber de que tipo se trata', 'opciones', list)
-            .then((result) => {
-              // console.log('Result: ', result); //return object success
-              fase = 4;
-            })
-            .catch((erro) => {
-              console.error('Error when sending: ', erro); //return object error
-            });
-          break;
-        case 4:
-
-          const msg = [
-            {
-              "buttonText": {
-                "displayText": "Vale 👍"
-              }
-            }
-          ]
-          client.sendButtons(message.from, 'Gracias por facilitarnos la información, vamos a proceder a crear el ticket, ¿de acuerdo?', msg, 'Pulse el botón para finalizar')
-            .then((result) => {
-              //console.log('Result2: ', result); //return object success
-              fase = -1;
-            })
-            .catch((erro) => {
-              console.error('Error when sending: ', erro); //return object error
-            });
-
-          break;
-        default:
-
-          const issue =
-            `{
-                                "update": {},
-                                "fields": {
-                                "summary":  "${datos[1]}",
-                                "issuetype": {
-                                    "name": "${datos[4].substring(0, datos[4].indexOf('\n'))}"
-                                },
-                                "project": {
-                                    "key": "${datos[3]}"
-                                },
-                                "description": {
-                                    "type": "doc",
-                                    "version": 1,
-                                    "content": [
-                                    {
-                                        "type": "paragraph",
-                                        "content": [
-                                        {
-                                            "text": "${datos[2]}",
-                                            "type": "text"
-                                        }
-                                        ]
-                                    }
-                                    ]
-                                },
-                                "reporter": {
-                                    "id": "5d0a2b3cdae4be0bc931c579"
-                                },
-                                    "customfield_10058": "${telefono.substring(2, 11)}",
-                                    "customfield_10057":  "${nombre}"
-                                }
-                            }`
-            ;
-
-          fetch('https://chatsbot.atlassian.net/rest/api/3/issue', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Basic ${Buffer.from(
-                'tamara.96mc@gmail.com:USbYRDx1UZ6I09GT44M21629'
-              ).toString('base64')}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: issue
-          })
-            .then(response => {
-              console.log(
-                `Response: ${response.status} ${response.statusText}`
-              );
-              return response.text();
-            })
-            .then(text => {
-
-              let datos = JSON.parse(text);
+          } else {
+  
+            telefono = message.sender.id;
+            nombre = message.sender.pushname;
+            datos.push(message.body);
+  
+           if (fase1.includes(clienteWA)) {
+  
               client
-                .sendText(message.from, `Hemos creado en ticket 📝 ${datos.key}, puede consultarlo en ➡ https://chatsbot.atlassian.net/browse/${datos.key}`)
+                .sendText(message.from, `Vale. ¿Me puedes facilitar algo más de información? 💬`)
                 .then((result) => {
-                  fase = 0;
+                  //console.log('Result: ', result); //return object success
+                  fase1 = fase1.filter(val => !clienteWA.includes(val));
                 })
                 .catch((erro) => {
                   console.error('Error when sending: ', erro); //return object error
                 });
+  
+            }
+  
+            else if (fase2.includes(clienteWA)) {
+              const buttons = [
+                {
+                  "buttonText": {
+                    "displayText": "CAU"
+                  }
+                },
+                {
+                  "buttonText": {
+                    "displayText": "GESTIC"
+                  }
+                }
+              ]
+              client.sendButtons(message.from, 'Proyectos', buttons, 'Selecciona uno')
+                .then((result) => {
+                  //console.log('Result2: ', result); //return object success
+                  fase2 = fase2.filter(val => !clienteWA.includes(val));
+                })
+                .catch((erro) => {
+                  console.error('Error when sending: ', erro); //return object error
+                });
+  
+            } else if (fase3.includes(clienteWA)) {
+  
+              const list = [
+                {
+                  title: "Tipo de tareas",
+                  rows: [
+                    {
+                      title: "Incidencia",
+                      description: "Si tiene un problema o un error.",
+                    },
+                    {
+                      title: "Consulta",
+                      description: "Si tiene dudas o necesita información sobre un asunto",
+                    },
+                    {
+                      title: "Servicio",
+                      description: "Si necesita de nuestro soporte de servicios.",
+                    }
+                  ]
+                }
+              ];
+  
+              client.sendListMenu(message.from, 'Tipo de tarea', 'Seleccione uno', 'Para clasificar este ticket necesitamos saber de que tipo se trata', 'opciones', list)
+                .then((result) => {
+                  // console.log('Result: ', result); //return object success
+                  fase3 = fase3.filter(val => !clienteWA.includes(val));
+                })
+                .catch((erro) => {
+                  console.error('Error when sending: ', erro); //return object error
+                });
+  
+            } else if (fase4.includes(clienteWA)) {
+  
+              const msg = [
+                {
+                  "buttonText": {
+                    "displayText": "Vale 👍"
+                  }
+                }
+              ]
+              client.sendButtons(message.from, 'Gracias por facilitarnos la información, vamos a proceder a crear el ticket, ¿de acuerdo?', msg, 'Pulse el botón para finalizar')
+                .then((result) => {
+                  //console.log('Result2: ', result); //return object success
+                  fase4 = fase4.filter(val => !clienteWA.includes(val));
+                })
+                .catch((erro) => {
+                  console.error('Error when sending: ', erro); //return object error
+                });
+  
+            } else if (fase5.includes(clienteWA)) {
+  
+  
+              const issue =
+                `{
+                                  "update": {},
+                                  "fields": {
+                                  "summary":  "${datos[1]}",
+                                  "issuetype": {
+                                      "name": "${datos[4].substring(0, datos[4].indexOf('\n'))}"
+                                  },
+                                  "project": {
+                                      "key": "${datos[3]}"
+                                  },
+                                  "description": {
+                                      "type": "doc",
+                                      "version": 1,
+                                      "content": [
+                                      {
+                                          "type": "paragraph",
+                                          "content": [
+                                          {
+                                              "text": "${datos[2]}",
+                                              "type": "text"
+                                          }
+                                          ]
+                                      }
+                                      ]
+                                  },
+                                  "reporter": {
+                                      "id": "5d0a2b3cdae4be0bc931c579"
+                                  },
+                                      "customfield_10058": "${telefono.substring(2, 11)}",
+                                      "customfield_10057":  "${nombre}"
+                                  }
+                              }`
+                ;
+  
+              fetch('https://chatsbot.atlassian.net/rest/api/3/issue', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Basic ${Buffer.from(
+                    'tamara.96mc@gmail.com:USbYRDx1UZ6I09GT44M21629'
+                  ).toString('base64')}`,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: issue
+              })
+                .then(response => {
+                  console.log(
+                    `Response: ${response.status} ${response.statusText}`
+                  );
+                  return response.text();
+                })
+                .then(text => {
+  
+                  let datos = JSON.parse(text);
+                  client
+                    .sendText(message.from, `Hemos creado en ticket 📝 ${datos.key}, puede consultarlo en ➡ https://chatsbot.atlassian.net/browse/${datos.key}`)
+                    .then((result) => {
+                      fase5 = fase5.filter(val => !clienteWA.includes(val));
+                    })
+                    .catch((erro) => {
+                      console.error('Error when sending: ', erro); //return object error
+                    });
+                })
+                .catch(err => console.error(err));
+            }
+  
+          }
+  
+        } else {
+  
+          client
+            .sendText(message.from, `Hola 👋, vemos que tienes permisos en este manejador :(`)
+            .then((result) => {
+              //console.log('Result: ', result); //return object success
             })
-            .catch(err => console.error(err));
-          break;
-      };
-
-    } else {
-
-      client
-        .sendText(message.from, `Hola 👋, vemos que tienes permisos en este manejador :(`)
-        .then((result) => {
-          //console.log('Result: ', result); //return object success
-          fase = 1;
-        })
-        .catch((erro) => {
-          console.error('Error when sending: ', erro); //return object error
-        });
-
-    }
+            .catch((erro) => {
+              console.error('Error when sending: ', erro); //return object error
+            });
+  
+        }
+  
+      } catch (error) {
+  
+        console.log(error);
+  
+      }
 
   }
 

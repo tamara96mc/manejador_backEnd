@@ -12,19 +12,19 @@ module.exports = {
         type: Sequelize.STRING
       },
       url_jira: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       usuario: {
         type: Sequelize.STRING
       },
       contraseya: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       telefono: {
         type: Sequelize.STRING
       },
       tipo_jira: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       userId: {
         type: Sequelize.INTEGER,

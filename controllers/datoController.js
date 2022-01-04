@@ -4,7 +4,6 @@ const datos = db.dato;
 const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
 const {sequelize_conexion} = require('../config/db.js');
 
-var clienteModel  = require('../models').cliente;
 var campoModel  = require('../models').campo;  //Add for dependency response
 
 const datoController = {}; //Create the object controller

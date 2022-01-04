@@ -8,12 +8,23 @@ let fase3 = [];
 let fase4 = [];
 let fase5 = [];
 
+let clientes = [];
+let proyectos = [];
+
+let jiraCredencials;
+
 let nombre = '';
 let telefono = '';
 
 // const venomOptions = require('./venom-options.js')
 const venom = require('venom-bot');
 const fetch = require('node-fetch');
+
+let clienteModel = require('../models').cliente;
+let  proyectoModel = require('../models').proyecto;
+let  jiraModel = require('../models').jira;
+
+const { sequelize_conexion } = require('../config/db.js');
 
 const ManejadorController = {}; //Create the object controller
 
@@ -26,9 +37,10 @@ ManejadorController.createBot = (req, res) => {
   initBot()
 
   function initBot() {
+
     dateLog('Initializing bot')
     let telefono_manejador = req.body.telefono;
-    console.log('tlf', telefono_manejador);
+
     venom
       //	create bot with options
       .create(
@@ -66,6 +78,64 @@ ManejadorController.createBot = (req, res) => {
       })
   }
 
+
+  const getDataClientes = (nameSesion) => {
+
+    sequelize_conexion.query(`select clientes.telefono 
+    from  jiras inner join clientes ON jiras.id = clientes.jiraId
+    where jiras.telefono = '${nameSesion}'`, { model: clienteModel })
+      .then(data => {
+
+        data.map(cliente => {
+          clientes.push(cliente.telefono);
+        })
+
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving clientes."
+        });
+      });
+  }
+
+  const getDataProyectos = (nameSesion) => {
+
+    sequelize_conexion.query(`Select proyectos.nombre , proyectos.tipo 
+    from  jiras inner join proyectos ON jiras.id = proyectos.jiraId
+    where jiras.telefono = '${nameSesion}'`, { model: proyectoModel })
+      .then(data => {
+
+        data.map(proyecto => {
+          proyectos.push([proyecto.nombre, proyecto.tipo]);
+        })
+
+      })
+
+
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving clientes."
+        });
+      });
+  }
+
+  const getDataJira = (nameSesion) => {
+
+    sequelize_conexion.query(`Select url_jira, usuario, contraseya from  jiras where telefono = '${nameSesion}' limit 1;`)
+      .then(data => {
+        jiraCredencials = data[0][0];
+      })
+
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving clientes."
+        });
+      });
+  }
+
   function startBot(_client) {
     dateLog('Starting bot')
     client = _client
@@ -83,7 +153,9 @@ ManejadorController.createBot = (req, res) => {
 
     //
     // add your code here
-    //
+    getDataClientes(client.session);
+    getDataProyectos(client.session);
+    getDataJira(client.session);
 
     // example: reply every message with "Hi!""
     client.onMessage(reply)
@@ -93,26 +165,24 @@ ManejadorController.createBot = (req, res) => {
 
     try {
 
-      const clientes = ["680980409" , "652800441"];
-  
       let clienteWA = message.from.substring(2, 11);
-  
-        
-        if (clientes.includes(clienteWA)) {
-  
-          let condicion = !fase1.includes(clienteWA) && !fase2.includes(clienteWA) && !fase3.includes(clienteWA) && !fase4.includes(clienteWA) && !fase5.includes(clienteWA);
-
-      
-          if (condicion) {
-  
-            fase1.push(clienteWA);
-            fase2.push(clienteWA);
-            fase3.push(clienteWA);
-            fase4.push(clienteWA);
-            fase5.push(clienteWA);
 
 
-            client
+      if (clientes.includes(clienteWA)) {
+
+        let condicion = !fase1.includes(clienteWA) && !fase2.includes(clienteWA) && !fase3.includes(clienteWA) && !fase4.includes(clienteWA) && !fase5.includes(clienteWA);
+
+
+        if (condicion) {
+
+          fase1.push(clienteWA);
+          fase2.push(clienteWA);
+          fase3.push(clienteWA);
+          fase4.push(clienteWA);
+          fase5.push(clienteWA);
+
+
+          client
             .sendText(message.from, `Hola 👋, bienvenido al soporte de JIRA. Vamos a crear un ticket, ¿Me puedes facilitar un resumen para el ticket?`)
             .then((result) => {
               //console.log('Result: ', result); //return object success
@@ -120,110 +190,129 @@ ManejadorController.createBot = (req, res) => {
             .catch((erro) => {
               console.error('Error when sending: ', erro); //return object error
             });
-          } else {
-  
-            telefono = message.sender.id;
-            nombre = message.sender.pushname;
-            datos.push(message.body);
-  
-           if (fase1.includes(clienteWA)) {
-  
-              client
-                .sendText(message.from, `Vale. ¿Me puedes facilitar algo más de información? 💬`)
-                .then((result) => {
-                  //console.log('Result: ', result); //return object success
-                  fase1 = fase1.filter(val => !clienteWA.includes(val));
-                })
-                .catch((erro) => {
-                  console.error('Error when sending: ', erro); //return object error
-                });
-  
+        } else {
+
+          telefono = message.sender.id;
+          nombre = message.sender.pushname;
+          datos.push(message.body);
+
+          if (fase1.includes(clienteWA)) {
+
+            client
+              .sendText(message.from, `Vale. ¿Me puedes facilitar algo más de información? 💬`)
+              .then((result) => {
+                //console.log('Result: ', result); //return object success
+                fase1 = fase1.filter(val => !clienteWA.includes(val));
+              })
+              .catch((erro) => {
+                console.error('Error when sending: ', erro); //return object error
+              });
+
+          }
+
+          else if (fase2.includes(clienteWA)) {
+
+            let nombres = [];
+
+            for (let i = 0; i < proyectos.length; ++i) {
+
+              nombres.push(proyectos[i][0]);
+
             }
-  
-            else if (fase2.includes(clienteWA)) {
-              const buttons = [
-                {
-                  "buttonText": {
-                    "displayText": "CAU"
-                  }
-                },
-                {
-                  "buttonText": {
-                    "displayText": "GESTIC"
-                  }
+
+            let uniqueChars = [...new Set(nombres)];
+
+            let buttons = [];
+
+            uniqueChars.map(nombreBoton => {
+              buttons.push({
+                "buttonText": {
+                  "displayText": nombreBoton
                 }
-              ]
-              client.sendButtons(message.from, 'Proyectos', buttons, 'Selecciona uno')
-                .then((result) => {
-                  //console.log('Result2: ', result); //return object success
-                  fase2 = fase2.filter(val => !clienteWA.includes(val));
-                })
-                .catch((erro) => {
-                  console.error('Error when sending: ', erro); //return object error
-                });
-  
-            } else if (fase3.includes(clienteWA)) {
-  
-              const list = [
-                {
-                  title: "Tipo de tareas",
-                  rows: [
-                    {
-                      title: "Incidencia",
-                      description: "Si tiene un problema o un error.",
-                    },
-                    {
-                      title: "Consulta",
-                      description: "Si tiene dudas o necesita información sobre un asunto",
-                    },
-                    {
-                      title: "Servicio",
-                      description: "Si necesita de nuestro soporte de servicios.",
-                    }
-                  ]
+              });
+            })
+
+            client.sendButtons(message.from, 'Proyectos', buttons, 'Selecciona uno')
+              .then((result) => {
+                //console.log('Result2: ', result); //return object success
+                fase2 = fase2.filter(val => !clienteWA.includes(val));
+              })
+              .catch((erro) => {
+                console.error('Error when sending: ', erro); //return object error
+              });
+
+          } else if (fase3.includes(clienteWA)) {
+
+
+            let tipos = [];
+
+            for (let i = 0; i < proyectos.length; ++i) {
+
+              if (proyectos[i][0] == "CAU") //proyecto seleccionado en la respuesta datos[3]
+                tipos.push(proyectos[i][1]);
+
+            }
+
+            let uniqueChars = [...new Set(tipos)];
+
+            let rows_list = [];
+
+            uniqueChars.map(nombreBoton => {
+              rows_list.push({
+                title: nombreBoton,
+                description: "Seleccione está opción para crear " + nombreBoton.toLowerCase(),
+              });
+            })
+
+            const list = [
+              {
+                title: "Tipo de tareas",
+                rows: rows_list
+              }
+            ];
+
+            client.sendListMenu(message.from, 'Tipo de tarea', 'Seleccione uno', 'Para clasificar este ticket necesitamos saber de que tipo se trata', 'opciones', list)
+              .then((result) => {
+                // console.log('Result: ', result); //return object success
+                fase3 = fase3.filter(val => !clienteWA.includes(val));
+              })
+              .catch((erro) => {
+                console.error('Error when sending: ', erro); //return object error
+              });
+
+          } else if (fase4.includes(clienteWA)) {
+
+            const msg = [
+              {
+                "buttonText": {
+                  "displayText": "Vale 👍"
                 }
-              ];
-  
-              client.sendListMenu(message.from, 'Tipo de tarea', 'Seleccione uno', 'Para clasificar este ticket necesitamos saber de que tipo se trata', 'opciones', list)
-                .then((result) => {
-                  // console.log('Result: ', result); //return object success
-                  fase3 = fase3.filter(val => !clienteWA.includes(val));
-                })
-                .catch((erro) => {
-                  console.error('Error when sending: ', erro); //return object error
-                });
-  
-            } else if (fase4.includes(clienteWA)) {
-  
-              const msg = [
-                {
-                  "buttonText": {
-                    "displayText": "Vale 👍"
-                  }
-                }
-              ]
-              client.sendButtons(message.from, 'Gracias por facilitarnos la información, vamos a proceder a crear el ticket, ¿de acuerdo?', msg, 'Pulse el botón para finalizar')
-                .then((result) => {
-                  //console.log('Result2: ', result); //return object success
-                  fase4 = fase4.filter(val => !clienteWA.includes(val));
-                })
-                .catch((erro) => {
-                  console.error('Error when sending: ', erro); //return object error
-                });
-  
-            } else if (fase5.includes(clienteWA)) {
-  
-  
-              const issue =
-                `{
+              }
+            ]
+            client.sendButtons(message.from, 'Gracias por facilitarnos la información, vamos a proceder a crear el ticket, ¿de acuerdo?', msg, 'Pulse el botón para finalizar')
+              .then((result) => {
+                //console.log('Result2: ', result); //return object success
+                fase4 = fase4.filter(val => !clienteWA.includes(val));
+              })
+              .catch((erro) => {
+                console.error('Error when sending: ', erro); //return object error
+              });
+
+          } else if (fase5.includes(clienteWA)) {
+
+
+         console.log( 'datos' , datos);
+
+            const issue =
+              `{
                                   "update": {},
                                   "fields": {
-                                  "summary":  "${datos[1]}",
+                                  "summary":  "${datos[0]}",
                                   "issuetype": {
-                                      "name": "${datos[4].substring(0, datos[4].indexOf('\n'))}"
+                                      "name": "${datos[3].substring(0, datos[3].indexOf('\n'))}"
                                   },
                                   "project": {
-                                      "key": "${datos[3]}"
+                                      "key": "${datos[2]}"
                                   },
                                   "description": {
                                       "type": "doc",
@@ -233,7 +322,7 @@ ManejadorController.createBot = (req, res) => {
                                           "type": "paragraph",
                                           "content": [
                                           {
-                                              "text": "${datos[2]}",
+                                              "text": "${datos[1]}",
                                               "type": "text"
                                           }
                                           ]
@@ -247,60 +336,61 @@ ManejadorController.createBot = (req, res) => {
                                       "customfield_10057":  "${nombre}"
                                   }
                               }`
-                ;
-  
-              fetch('https://chatsbot.atlassian.net/rest/api/3/issue', {
-                method: 'POST',
-                headers: {
-                  'Authorization': `Basic ${Buffer.from(
-                    'tamara.96mc@gmail.com:USbYRDx1UZ6I09GT44M21629'
-                  ).toString('base64')}`,
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                body: issue
-              })
-                .then(response => {
-                  console.log(
-                    `Response: ${response.status} ${response.statusText}`
-                  );
-                  return response.text();
-                })
-                .then(text => {
-  
-                  let datos = JSON.parse(text);
-                  client
-                    .sendText(message.from, `Hemos creado en ticket 📝 ${datos.key}, puede consultarlo en ➡ https://chatsbot.atlassian.net/browse/${datos.key}`)
-                    .then((result) => {
-                      fase5 = fase5.filter(val => !clienteWA.includes(val));
-                    })
-                    .catch((erro) => {
-                      console.error('Error when sending: ', erro); //return object error
-                    });
-                })
-                .catch(err => console.error(err));
-            }
-  
-          }
-  
-        } else {
-  
-          client
-            .sendText(message.from, `Hola 👋, vemos que tienes permisos en este manejador :(`)
-            .then((result) => {
-              //console.log('Result: ', result); //return object success
+              ;
+
+
+            fetch(`${jiraCredencials.url_jira}/rest/api/3/issue` , {
+              method: 'POST',
+              headers: {
+                'Authorization': `Basic ${Buffer.from(
+                  `${jiraCredencials.usuario}:${jiraCredencials.contraseya}`
+                ).toString('base64')}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: issue
             })
-            .catch((erro) => {
-              console.error('Error when sending: ', erro); //return object error
-            });
-  
+              .then(response => {
+                console.log(
+                  `Response: ${response.status} ${response.statusText}`
+                );
+                return response.text();
+              })
+              .then(text => {
+
+                let datos = JSON.parse(text);
+                client
+                  .sendText(message.from, `Hemos creado en ticket 📝 ${datos.key}, puede consultarlo en ➡ https://chatsbot.atlassian.net/browse/${datos.key}`)
+                  .then((result) => {
+                    fase5 = fase5.filter(val => !clienteWA.includes(val));
+                  })
+                  .catch((erro) => {
+                    console.error('Error when sending: ', erro); //return object error
+                  });
+              })
+              .catch(err => console.error(err));
+          }
+
         }
-  
-      } catch (error) {
-  
-        console.log(error);
-  
+
+      } else {
+
+        client
+          .sendText(message.from, `Hola 👋, vemos que tienes permisos en este manejador :(`)
+          .then((result) => {
+            //console.log('Result: ', result); //return object success
+          })
+          .catch((erro) => {
+            console.error('Error when sending: ', erro); //return object error
+          });
+
       }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
 
   }
 

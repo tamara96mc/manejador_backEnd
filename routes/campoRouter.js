@@ -6,7 +6,7 @@ const campoController = require('../controllers/campoController');
 
 
 
-router.get('/', campoController.getAll);
+router.get('/jiraId/:jiraId', campoController.getAllByJira);
 router.post('/', campoController.create);
 router.put('/:id', campoController.update);
 router.delete('/:id', campoController.delete);

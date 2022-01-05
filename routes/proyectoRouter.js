@@ -5,7 +5,7 @@ const router = express.Router();
 const proyectoController = require('../controllers/proyectoController');
 
 
-router.get('/', proyectoController.getAllByJira);
+router.get('/jiraId/:jiraId', proyectoController.getAllByJira);
 router.post('/', proyectoController.create);
 router.put('/:id', proyectoController.update);
 router.delete('/:id', proyectoController.delete);

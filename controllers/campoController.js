@@ -11,9 +11,11 @@ const campoController = {}; //Create the object controller
 
 //-------------------------------------------------------------------------------------
 //GET all campos from database
-campoController.getAll = (req, res) => {
+campoController.getAllByJira = (req, res) => {
+
+  const jiraId = req.params.jiraId;
     
-  campos.findAll({include: [{ model:jiraModel}]})
+  campos.findAll( {where: { jiraId: jiraId }})
     .then(data => {
       res.send(data);
     })

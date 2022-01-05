@@ -5,7 +5,7 @@ const router = express.Router();
 const clienteController = require('../controllers/clienteController');
 
 
-router.get('/', clienteController.getAll);
+router.get('/jiraId/:jiraId', clienteController.getAllByJiraId);
 router.get('/:telefono', clienteController.getBytelefono);
 router.post('/', clienteController.create);
 router.put('/:telefono', clienteController.update);

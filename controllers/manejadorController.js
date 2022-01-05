@@ -53,14 +53,14 @@ ManejadorController.createBot = (req, res) => {
             if (matches.length !== 3) {
               return new Error('Invalid input string');
             }
-            response.type = matches[1];
-            response.data = new Buffer.from(matches[2], 'base64');
+            // response.type = matches[1];
+            // response.data = new Buffer.from(matches[2], 'base64');
       
-            let imageBuffer = response;
+            // let imageBuffer = response;
 
           try {
 
-            res.send(imageBuffer);
+            res.send(base64Qr);
           }
           catch (err) {
             res.status(500).send({

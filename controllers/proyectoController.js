@@ -13,7 +13,9 @@ const proyectoController = {}; //Create the object controller
 //GET all campos from database
 proyectoController.getAllByJira = (req, res) => {
     
-  proyectos.findAll({include: [{ model:jiraModel}]})
+  const jiraId = req.params.jiraId;
+
+  proyectos.findAll( {where: { jiraId: jiraId }})
     .then(data => {
       res.send(data);
     })

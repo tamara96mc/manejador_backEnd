@@ -15,9 +15,12 @@ const clienteController = {}; //Create the object controller
 //CRUD end-points Functions
 //-------------------------------------------------------------------------------------
 //GET all clientes from database
-clienteController.getAll = (req, res) => {
+clienteController.getAllByJiraId = (req, res) => {
 
-  sequelize_conexion.query('SELECT * FROM clientes', { model: clientes })
+const jiraId = req.params.jiraId;
+
+  sequelize_conexion.query(`SELECT * FROM clientes WHERE jiraId
+  ='${jiraId}' `, { model: clientes })
     .then(data => {
       res.send(data);
     })

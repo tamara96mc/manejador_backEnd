@@ -219,3 +219,25 @@
 {"level":"info","message":"::1 - - [04/Jan/2022:12:31:28 +0000] \"POST /manejador/createBot HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-04T12:31:28.004Z"}
 {"level":"info","message":"::1 - - [04/Jan/2022:12:38:48 +0000] \"POST /manejador/createBot HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-04T12:38:48.915Z"}
 {"level":"info","message":"::1 - - [04/Jan/2022:12:44:13 +0000] \"POST /manejador/createBot HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-04T12:44:13.894Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:22:50 +0000] \"GET /cliente/jiraId/4 HTTP/1.1\" 200 422 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:22:50.252Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:26:32 +0000] \"GET /proyecto/jiraId/4 HTTP/1.1\" 500 155 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:26:32.748Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:26:57 +0000] \"GET /proyecto/jiraId/4 HTTP/1.1\" 200 1742 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:26:57.470Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:27:50 +0000] \"GET /proyecto/jiraId/4 HTTP/1.1\" 200 538 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:27:50.250Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:31:48 +0000] \"GET /campo/jiraId/4 HTTP/1.1\" 200 155 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:31:48.900Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:46:18 +0000] \"POST /api/login HTTP/1.1\" 401 27 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:46:18.897Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:46:51 +0000] \"POST /api/4 HTTP/1.1\" 404 145 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:46:51.581Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:46:59 +0000] \"PUT /api/4 HTTP/1.1\" 404 144 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:46:59.121Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:50:07 +0000] \"PUT /api/4 HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:50:07.028Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:09:54:29 +0000] \"PUT /api/4 HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T09:54:29.247Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:00:15 +0000] \"PUT /api/4 HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:00:15.410Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:05:32 +0000] \"PUT /api/4 HTTP/1.1\" - - \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:05:32.842Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:09:40 +0000] \"PUT /api/4 HTTP/1.1\" 200 59 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:09:40.065Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:11:06 +0000] \"POST /api/register HTTP/1.1\" 500 42 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:11:06.322Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:11:31 +0000] \"POST /api/register HTTP/1.1\" 500 42 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:11:31.685Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:12:47 +0000] \"POST /api/register HTTP/1.1\" 200 253 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:12:47.336Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:13:24 +0000] \"PUT /api/4 HTTP/1.1\" 200 59 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:13:24.384Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:13:59 +0000] \"PUT /api/4 HTTP/1.1\" 200 59 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:13:59.491Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:14:35 +0000] \"GET /logo.png HTTP/1.1\" 404 147 \"http://localhost:3000/profile\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36\"\n","timestamp":"2022-01-05T10:14:35.696Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:14:36 +0000] \"GET /static/media/icon_logo.d093b38f.jpg HTTP/1.1\" 404 174 \"http://localhost:3000/login\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36\"\n","timestamp":"2022-01-05T10:14:36.868Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:16:15 +0000] \"PUT /api/4 HTTP/1.1\" 200 59 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:16:15.887Z"}
+{"level":"info","message":"::1 - - [05/Jan/2022:10:23:43 +0000] \"POST /manejador/createBot HTTP/1.1\" 200 25272 \"-\" \"PostmanRuntime/7.28.4\"\n","timestamp":"2022-01-05T10:23:43.218Z"}

@@ -1,7 +1,10 @@
-//Importo modelo de datos
 const db = require("../models");
 const User = db.users;
-const Op = db.Sequelize.Op; //Import all ORM sequelize functions 
+// const { user } = require('../models/index');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth');
+
 const UserController = {}; //Create the object controller
 
 const { isValidPassword } = require('../services/validations');
@@ -66,7 +69,7 @@ async function loginController(req, res, next) {
       id: user.id,
     };
     user.token = await createJWT(data);
-    await  user.save();
+    await user.save();
 
 
     res.json({
@@ -75,7 +78,7 @@ async function loginController(req, res, next) {
       token: user.token
     });
   } catch (error) {
-      console.error(error);
+    console.error(error);
 
     res.status(401).json({
       message: 'login invalid',
@@ -85,18 +88,57 @@ async function loginController(req, res, next) {
 
 async function logoutController(req, res, next) {
   try {
-       const user = await User.findByPk(req.user.id);
-        user.token = null;
-       await user.save();
-       res.json({message:'logout done'});
+    const user = await User.findByPk(req.user.id);
+    user.token = null;
+    await user.save();
+    res.json({ message: 'logout done' });
   } catch (error) {
-      console.log('error', error)
-      res.status(500).json({message: 'ups'})
+    console.log('error', error)
+    res.status(500).json({ message: 'ups' })
   }
 }
+
+
+async function update(req, res) {
+
+
+  const id = req.params.id;
+
+  // if (req.user.usuario.rol == "administrador" || req.user.usuario.id == id) {// HACEMOS QUE SOLO PUEDA ACTULIZARLO EL ADMINISTRADOR O EL USUARIO DUEÑO DEL PERFIL
+
+  isValidPassword(req.body.contraseya);
+  req.body.contraseya = await hashPassword(req.body.contraseya);
+  
+  User.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "El usuario ha sido actualizado correctamente."
+        });
+      } else {
+        res.send({
+          message: `No se ha podido actualizar el usuario con el id ${id}`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Ha surgido algún error al intentar actualizar el usuario con el id " + id + "."
+      });
+    });
+  // }else{
+  //   res.send({
+  //     message: `No tienes permisos para modificar el perfil indicado.`
+  //   });
+  // }
+};
+
 
 module.exports = {
   registerController,
   loginController,
   logoutController,
+  update
 };

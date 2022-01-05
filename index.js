@@ -13,18 +13,26 @@ const cors= require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000; //la confi del puerto heroku
 
-var corsOptions = {
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-  };
+// var corsOptions = {
+//     origin: "*",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204
+//   };
   
 
 //Middleware
 app.use(morgan('combined', { stream: logger.stream }));
 app.use(express.json());
-app.use(cors(corsOptions)); //Add CORS Middleware
+// app.use(cors(corsOptions)); //Add CORS Middleware
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*');
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", '*');
+  next();
+});
 
 //Rutas
 app.get('/', (req, res) => {res.send('Bienvenidos a Express');});

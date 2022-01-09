@@ -76,7 +76,7 @@ datoController.update = (req, res) => {
 //GET dato by Title from database 
 //FindByTitle
   datoController.getByTelefono = (req, res) => {
-    sequelize_conexion.query(`SELECT campos.nombre, datos.valor FROM datos
+    sequelize_conexion.query(`SELECT campos.nombre, datos.valor, datos.id FROM datos
     INNER JOIN Campos ON datos.campoId=campos.id WHERE telefono
     ='${req.params.telefono}' `, { model: campoModel })
       .then(data => {

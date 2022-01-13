@@ -111,7 +111,7 @@ https://tmc-api-manejador.herokuapp.com/proyecto/:id
 ### Entidad manejador
 
 - Post para inicial el chatbot
-https://bot-jira-api.herokuapp.com/manejador/createBo
+https://bot-jira-api.herokuapp.com/manejador/createBot
 
 ## API en heroku
 

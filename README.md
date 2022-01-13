@@ -113,6 +113,8 @@ https://tmc-api-manejador.herokuapp.com/proyecto/:id
 - Post para inicial el chatbot
 https://bot-jira-api.herokuapp.com/manejador/createBot
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/17842893-7bd6dc85-7459-4684-b482-ebfee488949f?action=collection%2Ffork&collection-url=entityId%3D17842893-7bd6dc85-7459-4684-b482-ebfee488949f%26entityType%3Dcollection%26workspaceId%3D97831de1-c46c-46d9-963c-c088a842e762)
+
 ## API en heroku
 
 https://tmc-api-manejador.herokuapp.com/
